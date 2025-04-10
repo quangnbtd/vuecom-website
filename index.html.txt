@@ -1,0 +1,1680 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VUECOM - Giải Pháp Toàn Diện Cho Shop Shopee</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #1e40af;
+            --secondary-color: #f97316;
+            --gradient-primary: linear-gradient(135deg, #1e40af 0%, #3b82f6 100%);
+            --gradient-secondary: linear-gradient(135deg, #f97316 0%, #fb923c 100%);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            overflow-x: hidden;
+        }
+        
+        .gradient-text {
+            background: var(--gradient-secondary);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .primary-btn {
+            background: var(--gradient-primary);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(30, 64, 175, 0.2);
+        }
+        
+        .primary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(30, 64, 175, 0.3);
+        }
+        
+        .secondary-btn {
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(249, 115, 22, 0.2);
+        }
+        
+        .secondary-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(249, 115, 22, 0.3);
+        }
+        
+        .section-title {
+            position: relative;
+            margin-bottom: 3rem;
+            font-weight: 800;
+        }
+        
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 4px;
+            background: var(--gradient-secondary);
+            border-radius: 2px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            height: 100%;
+        }
+        
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+        
+        .service-card {
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .service-card::before {
+            content: "";
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            background: var(--gradient-primary);
+            opacity: 0;
+            z-index: -1;
+            transition: all 0.4s ease;
+            border-radius: 20px;
+        }
+        
+        .service-card:hover::before {
+            opacity: 0.05;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+        
+        .service-icon {
+            width: 70px;
+            height: 70px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--gradient-primary);
+            border-radius: 16px;
+            color: white;
+            font-size: 30px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.1);
+            box-shadow: 0 10px 20px rgba(30, 64, 175, 0.2);
+        }
+        
+        .price-card {
+            position: relative;
+            overflow: hidden;
+            border: 2px solid #eaeaea;
+            transition: all 0.3s ease;
+        }
+        
+        .price-card:hover {
+            border-color: var(--primary-color);
+        }
+        
+        .price-card.recommended {
+            border-color: var(--secondary-color);
+            box-shadow: 0 15px 40px rgba(249, 115, 22, 0.15);
+        }
+        
+        .price-badge {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            transform: rotate(45deg);
+            background: var(--gradient-secondary);
+            color: white;
+            padding: 5px 40px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .ticker-wrap {
+            width: 100%;
+            overflow: hidden;
+            background: var(--gradient-primary);
+            padding: 12px 0;
+            box-shadow: 0 5px 15px rgba(30, 64, 175, 0.2);
+        }
+        
+        .ticker {
+            display: flex;
+            animation: ticker 30s linear infinite;
+            white-space: nowrap;
+        }
+        
+        .ticker-item {
+            flex: 0 0 auto;
+            margin: 0 50px;
+            color: white;
+            font-weight: 600;
+        }
+        
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-100%); }
+        }
+        
+        .counter-item {
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .counter-value {
+            font-size: 50px;
+            font-weight: 800;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+        
+        .timeline {
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .timeline::after {
+            content: '';
+            position: absolute;
+            width: 6px;
+            background: var(--gradient-primary);
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            margin-left: -3px;
+            border-radius: 3px;
+        }
+        
+        .timeline-container {
+            position: relative;
+            width: 50%;
+            padding: 0 40px 80px 40px;
+        }
+        
+        .timeline-container.left {
+            left: 0;
+        }
+        
+        .timeline-container.right {
+            left: 50%;
+        }
+        
+        .timeline-container::after {
+            content: '';
+            position: absolute;
+            width: 25px;
+            height: 25px;
+            right: -12px;
+            background-color: white;
+            border: 4px solid var(--secondary-color);
+            top: 15px;
+            border-radius: 50%;
+            z-index: 1;
+        }
+        
+        .timeline-container.right::after {
+            left: -12px;
+        }
+        
+        .timeline-content {
+            padding: 20px 30px;
+            background-color: white;
+            position: relative;
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .testimonial-card {
+            background-color: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            position: relative;
+            margin-top: 40px;
+        }
+        
+        .testimonial-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            position: absolute;
+            top: -40px;
+            left: 30px;
+            border: 4px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .slider-container {
+            width: 100%;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .slider {
+            display: flex;
+            width: 300%;
+            transition: transform 0.5s ease;
+        }
+        
+        .slide {
+            width: calc(100% / 3);
+            padding: 20px;
+        }
+        
+        .slider-dots {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .slider-dot {
+            width: 12px;
+            height: 12px;
+            margin: 0 5px;
+            border-radius: 50%;
+            background-color: #ccc;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        
+        .slider-dot.active {
+            background-color: var(--secondary-color);
+        }
+        
+        .accordion-item {
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .accordion-header {
+            background-color: white;
+            padding: 20px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .accordion-header:hover {
+            background-color: #f8fafc;
+        }
+        
+        .accordion-content {
+            background-color: white;
+            padding: 0 20px;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .accordion-content.active {
+            max-height: 300px;
+            padding: 20px;
+        }
+        
+        .form-control {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            margin-bottom: 20px;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(30, 64, 175, 0.1);
+        }
+        
+        .parallax-bg {
+            background-image: url('https://cdn.jsdelivr.net/gh/devicons/devicon/icons/typescript/typescript-original.svg');
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            opacity: 0.05;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        .floating {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .timeline::after {
+                left: 31px;
+            }
+            
+            .timeline-container {
+                width: 100%;
+                padding-left: 70px;
+                padding-right: 25px;
+            }
+            
+            .timeline-container.right {
+                left: 0;
+            }
+            
+            .timeline-container.left::after, 
+            .timeline-container.right::after {
+                left: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Section -->
+    <header class="fixed w-full z-50 bg-white shadow-md">
+        <div class="container mx-auto px-4 py-3 flex justify-between items-center">
+            <div class="flex items-center">
+                <div class="text-3xl font-extrabold text-blue-800">VUE<span class="text-orange-500">COM</span></div>
+            </div>
+            <nav class="hidden md:flex space-x-8">
+                <a href="#about" class="text-gray-700 hover:text-blue-800 font-medium transition-colors">Giới thiệu</a>
+                <a href="#services" class="text-gray-700 hover:text-blue-800 font-medium transition-colors">Dịch vụ</a>
+                <a href="#pricing" class="text-gray-700 hover:text-blue-800 font-medium transition-colors">Bảng giá</a>
+                <a href="#testimonials" class="text-gray-700 hover:text-blue-800 font-medium transition-colors">Đánh giá</a>
+                <a href="#contact" class="text-gray-700 hover:text-blue-800 font-medium transition-colors">Liên hệ</a>
+            </nav>
+            <button class="md:hidden text-gray-700 focus:outline-none">
+                <i class="fas fa-bars text-2xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 relative overflow-hidden">
+        <div class="parallax-bg"></div>
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap items-center">
+                <div class="w-full lg:w-1/2 mb-12 lg:mb-0" data-aos="fade-right" data-aos-duration="1000">
+                    <h1 class="text-4xl md:text-5xl font-extrabold mb-6 leading-tight">Giải Pháp <span class="gradient-text">Toàn Diện</span> Cho Shop Shopee Của Bạn</h1>
+                    <p class="text-lg text-gray-600 mb-8">VUECOM cung cấp các dịch vụ chuyên nghiệp giúp Shop Shopee của bạn tăng đơn hàng, nâng cao hiệu suất và phát triển bền vững.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <a href="#contact" class="primary-btn">Liên hệ ngay</a>
+                        <a href="#services" class="secondary-btn">Xem dịch vụ</a>
+                    </div>
+                </div>
+                <div class="w-full lg:w-1/2 relative" data-aos="fade-left" data-aos-duration="1000">
+                    <img src="https://cdn.jsdelivr.net/gh/mrmongkeyy/databanker@main/images/shopee-hero.png" alt="VUECOM Shopee" class="w-5/6 mx-auto floating">
+                    <div class="absolute -top-10 right-10 bg-white rounded-full p-4 shadow-xl floating" style="animation-delay: 0.5s;">
+                        <i class="fas fa-chart-line text-3xl text-blue-800"></i>
+                    </div>
+                    <div class="absolute bottom-10 left-10 bg-white rounded-full p-4 shadow-xl floating" style="animation-delay: 1s;">
+                        <i class="fas fa-shopping-cart text-3xl text-orange-500"></i>
+                    </div>
+                    <div class="absolute top-1/2 right-0 transform -translate-y-1/2 bg-white rounded-full p-4 shadow-xl floating" style="animation-delay: 1.5s;">
+                        <i class="fas fa-star text-3xl text-yellow-500"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Ticker Section -->
+    <div class="ticker-wrap">
+        <div class="ticker">
+            <div class="ticker-item">🚀 Tăng đơn hàng nhanh chóng</div>
+            <div class="ticker-item">🛒 Xử lý lỗi Shopee</div>
+            <div class="ticker-item">⭐ Tăng đánh giá 5 sao</div>
+            <div class="ticker-item">🏪 Lên Mall dễ dàng</div>
+            <div class="ticker-item">🔥 Treo Live 24/7</div>
+            <div class="ticker-item">📊 Xây dựng Shop chuyên nghiệp</div>
+            <div class="ticker-item">🚀 Tăng đơn hàng nhanh chóng</div>
+            <div class="ticker-item">🛒 Xử lý lỗi Shopee</div>
+            <div class="ticker-item">⭐ Tăng đánh giá 5 sao</div>
+            <div class="ticker-item">🏪 Lên Mall dễ dàng</div>
+            <div class="ticker-item">🔥 Treo Live 24/7</div>
+            <div class="ticker-item">📊 Xây dựng Shop chuyên nghiệp</div>
+        </div>
+    </div>
+
+    <!-- About Section -->
+    <section id="about" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl text-center section-title" data-aos="fade-up">Về VUECOM</h2>
+            <div class="max-w-3xl mx-auto text-center mb-16" data-aos="fade-up" data-aos-delay="100">
+                <p class="text-lg text-gray-600">VUECOM là đơn vị tiên phong trong lĩnh vực cung cấp dịch vụ hỗ trợ Shop Shopee tại Việt Nam. Với đội ngũ chuyên gia giàu kinh nghiệm, chúng tôi cam kết mang đến các giải pháp toàn diện giúp Shop của bạn phát triển vượt bậc.</p>
+            </div>
+            
+            <!-- Counter Section -->
+            <div class="flex flex-wrap -mx-4 mt-10">
+                <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="counter-item">
+                        <div class="counter-value"><span class="counter" data-count="5000">0</span>+</div>
+                        <div class="text-gray-600 font-medium">Shop đã sử dụng dịch vụ</div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="counter-item">
+                        <div class="counter-value"><span class="counter" data-count="98">0</span>%</div>
+                        <div class="text-gray-600 font-medium">Đánh giá tích cực</div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="counter-item">
+                        <div class="counter-value"><span class="counter" data-count="100000">0</span>+</div>
+                        <div class="text-gray-600 font-medium">Đơn hàng đã xử lý</div>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8" data-aos="zoom-in" data-aos-delay="400">
+                    <div class="counter-item">
+                        <div class="counter-value">24/7</div>
+                        <div class="text-gray-600 font-medium">Hỗ trợ khách hàng</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl text-center section-title" data-aos="fade-up">Dịch Vụ Của Chúng Tôi</h2>
+            <div class="max-w-3xl mx-auto text-center mb-16" data-aos="fade-up" data-aos-delay="100">
+                <p class="text-lg text-gray-600">VUECOM cung cấp đa dạng các dịch vụ chuyên nghiệp, đáp ứng mọi nhu cầu phát triển Shop Shopee của bạn.</p>
+            </div>
+            
+            <div class="flex flex-wrap -mx-4">
+                <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="100">
+                    <div class="service-card card h-full">
+                        <div class="service-icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Buff Đơn & Đánh Giá</h3>
+                        <p class="text-gray-600">Tăng lượt bán và đánh giá 5 sao có bình luận, giúp Shop của bạn nổi bật và thu hút khách hàng tiềm năng.</p>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="200">
+                    <div class="service-card card h-full">
+                        <div class="service-icon">
+                            <i class="fas fa-store"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Xây Dựng Shop</h3>
+                        <p class="text-gray-600">Thiết kế và xây dựng Shop chuyên nghiệp từ A-Z với đầy đủ banner, ảnh sản phẩm và chiến lược SEO tối ưu.</p>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="300">
+                    <div class="service-card card h-full">
+                        <div class="service-icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Lên Shopee Mall</h3>
+                        <p class="text-gray-600">Hỗ trợ Shop của bạn đạt tiêu chuẩn và được chứng nhận Shopee Mall, nâng cao uy tín và doanh số.</p>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="400">
+                    <div class="service-card card h-full">
+                        <div class="service-icon">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Xử Lý Lỗi Shopee</h3>
+                        <p class="text-gray-600">Khắc phục các lỗi như F02, giao dịch ngoài, hàng giả hàng nhái và giúp Shop hoạt động trở lại bình thường.</p>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="500">
+                    <div class="service-card card h-full">
+                        <div class="service-icon">
+                            <i class="fas fa-video"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Treo Live Shopee</h3>
+                        <p class="text-gray-600">Dịch vụ treo Live 24/7 giúp tăng khả năng hiển thị Shop và tiếp cận nhiều khách hàng tiềm năng hơn.</p>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="600">
+                    <div class="service-card card h-full">
+                        <div class="service-icon">
+                            <i class="fas fa-paint-brush"></i>
+                        </div>
+                        <h3 class="text-xl font-bold mb-4">Trang Trí Shop</h3>
+                        <p class="text-gray-600">Thiết kế banner, logo và ảnh sản phẩm chuyên nghiệp, tạo ấn tượng tốt với khách hàng ngay từ cái nhìn đầu tiên.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl text-center section-title" data-aos="fade-up">Bảng Giá Dịch Vụ</h2>
+            <div class="max-w-3xl mx-auto text-center mb-16" data-aos="fade-up" data-aos-delay="100">
+                <p class="text-lg text-gray-600">Chúng tôi cung cấp nhiều gói dịch vụ với mức giá phù hợp cho mọi nhu cầu và ngân sách.</p>
+            </div>
+            
+            <!-- Tabs for Different Services -->
+            <div class="mb-10 flex flex-wrap justify-center gap-4" data-aos="fade-up">
+                <button class="tab-btn primary-btn active" data-tab="buff">Buff Đơn</button>
+                <button class="tab-btn secondary-btn" data-tab="mall">Shop Mall</button>
+                <button class="tab-btn secondary-btn" data-tab="build">Xây Dựng Shop</button>
+                <button class="tab-btn secondary-btn" data-tab="error">Xử Lý Lỗi</button>
+                <button class="tab-btn secondary-btn" data-tab="live">Treo Live</button>
+                <button class="tab-btn secondary-btn" data-tab="deco">Trang Trí Shop</button>
+            </div>
+            
+            <!-- Buff Đơn Pricing -->
+            <div id="buff-tab" class="tab-content active">
+                <div class="flex flex-wrap -mx-4">
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="100">
+                        <div class="price-card card">
+                            <h3 class="text-xl font-bold mb-2">GÓI KHỞI NGHIỆP</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">550K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 250 lượt bán</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 25 đánh giá 5 sao có bình luận</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Chia đều cho 5-10 sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Hoàn thành trong 5 ngày làm việc</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Bảo hành 30 ngày</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="primary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="200">
+                        <div class="price-card card recommended">
+                            <div class="price-badge">Phổ biến</div>
+                            <h3 class="text-xl font-bold mb-2">GÓI PHÁT TRIỂN</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">990K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 500 lượt bán</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 50 đánh giá 5 sao có bình luận</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Chia đều cho 5-10 sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Hoàn thành trong 7-10 ngày làm việc</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Bảo hành 30 ngày</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="secondary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="300">
+                        <div class="price-card card">
+                            <h3 class="text-xl font-bold mb-2">GÓI TĂNG TỐC</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">1870K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 1000 lượt bán</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 100 đánh giá 5 sao có bình luận</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Chia đều cho 5-10 sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Hoàn thành trong 10 ngày làm việc</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Bảo hành 30 ngày</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="primary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-center mt-8">
+                    <a href="#contact" class="inline-block text-blue-800 font-medium hover:text-orange-500 transition-colors">Xem thêm các gói BỨT PHÁ, TINH HOA và THỊNH VƯỢNG <i class="fas fa-arrow-right ml-2"></i></a>
+                </div>
+            </div>
+            
+            <!-- Shop Mall Pricing -->
+            <div id="mall-tab" class="tab-content hidden">
+                <div class="flex flex-wrap -mx-4">
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="100">
+                        <div class="price-card card">
+                            <h3 class="text-xl font-bold mb-2">GÓI MALL TIÊU CHUẨN</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">1870K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 300 lượt bán</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 60 đánh giá 5 sao có bình luận</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Chia đều cho 5 sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Hoàn thành trong 4-6 ngày làm việc</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Bảo hành 30 ngày</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="primary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="200">
+                        <div class="price-card card recommended">
+                            <div class="price-badge">Phổ biến</div>
+                            <h3 class="text-xl font-bold mb-2">GÓI MALL PREMIUM</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">2970K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 1000 lượt bán</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 200 đánh giá 5 sao có bình luận</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Chia đều cho 5-10 sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Hoàn thành trong 7-10 ngày làm việc</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Bảo hành 30 ngày</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="secondary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="300">
+                        <div class="price-card card">
+                            <h3 class="text-xl font-bold mb-2">GÓI MALL ELITE</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">4400K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 1500 lượt bán</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 300 đánh giá 5 sao có bình luận</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Chia đều cho 5-15 sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Hoàn thành trong 10-15 ngày làm việc</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Bảo hành 30 ngày</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="primary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Xây Dựng Shop Pricing -->
+            <div id="build-tab" class="tab-content hidden">
+                <div class="flex flex-wrap -mx-4">
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="100">
+                        <div class="price-card card">
+                            <h3 class="text-xl font-bold mb-2">GÓI KHỞI NGHIỆP</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">2090K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Đăng 20 sản phẩm chuẩn SEO</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thiết kế banner và ảnh sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 500 lượt bán và 50 đánh giá</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 1K lượt follow shop</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Setup quảng cáo cho 5 sản phẩm</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="primary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="200">
+                        <div class="price-card card recommended">
+                            <div class="price-badge">Phổ biến</div>
+                            <h3 class="text-xl font-bold mb-2">GÓI PHÁT TRIỂN</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">3300K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Đăng 30 sản phẩm chuẩn SEO</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thiết kế banner và ảnh sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 1000 lượt bán và 100 đánh giá</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 1K lượt follow shop</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Setup quảng cáo cho 5 sản phẩm</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="secondary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="300">
+                        <div class="price-card card">
+                            <h3 class="text-xl font-bold mb-2">GÓI TĂNG TỐC</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">4950K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Đăng 50 sản phẩm chuẩn SEO</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thiết kế banner và ảnh sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 2000 lượt bán và 200 đánh giá</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tăng 1K lượt follow shop</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Setup quảng cáo cho 5 sản phẩm</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="primary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Xử Lý Lỗi Pricing -->
+            <div id="error-tab" class="tab-content hidden">
+                <div class="flex flex-wrap -mx-4">
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="100">
+                        <div class="price-card card">
+                            <h3 class="text-xl font-bold mb-2">GIAO DỊCH NGOÀI</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">3300K - 7700K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Từ 3300K/1 sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Từ 7700K/1 shop</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Xử lý chat chuyển khoản, giao dịch ngoài</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thời gian: 3-15 ngày</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Cam kết an toàn cho shop</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="primary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="200">
+                        <div class="price-card card recommended">
+                            <div class="price-badge">Phổ biến</div>
+                            <h3 class="text-xl font-bold mb-2">LỖI F02</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">8800K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Xử lý lỗi F02 nghiêm trọng</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Khôi phục hoạt động shop</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Xử lý tận gốc vấn đề</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thời gian: 7-15 ngày</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tư vấn phòng tránh tái phạm</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="secondary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="300">
+                        <div class="price-card card">
+                            <h3 class="text-xl font-bold mb-2">HÀNG GIẢ HÀNG NHÁI</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">4400K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Từ 4400K/1 sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Xử lý vi phạm bản quyền</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Chuẩn hóa sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thời gian: 7-15 ngày</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tư vấn chiến lược kinh doanh hợp pháp</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="primary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Treo Live Pricing -->
+            <div id="live-tab" class="tab-content hidden">
+                <div class="flex flex-wrap -mx-4">
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="100">
+                        <div class="price-card card">
+                            <h3 class="text-xl font-bold mb-2">GÓI CƠ BẢN</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">3850K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Treo live 10 tiếng/ngày</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Shop tự cung cấp video phát live</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thời gian: 30 ngày</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Hỗ trợ kỹ thuật 24/7</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Báo cáo định kỳ về số lượng người xem</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="primary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="200">
+                        <div class="price-card card recommended">
+                            <div class="price-badge">Phổ biến</div>
+                            <h3 class="text-xl font-bold mb-2">GÓI PREMIUM</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">7700K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Treo live 20 tiếng/ngày</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Chúng tôi cung cấp video chất lượng cao</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thời gian: 30 ngày</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Hỗ trợ kỹ thuật 24/7</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Tặng thêm 10 ngày dùng thử miễn phí</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="secondary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="300">
+                        <div class="price-card card">
+                            <h3 class="text-xl font-bold mb-2">GÓI TIẾT KIỆM</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">4950K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Treo live 10 tiếng/ngày</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Chúng tôi cung cấp video</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thời gian: 30 ngày</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Hỗ trợ kỹ thuật 24/7</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Báo cáo định kỳ về số lượng người xem</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="primary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Trang Trí Shop Pricing -->
+            <div id="deco-tab" class="tab-content hidden">
+                <div class="flex flex-wrap -mx-4">
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="100">
+                        <div class="price-card card">
+                            <h3 class="text-xl font-bold mb-2">GÓI CƠ BẢN</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">550K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thiết kế banner shop</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Chỉnh sửa không giới hạn</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thiết kế theo yêu cầu</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Bàn giao file gốc</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Hỗ trợ đăng lên shop</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="primary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="200">
+                        <div class="price-card card recommended">
+                            <div class="price-badge">Phổ biến</div>
+                            <h3 class="text-xl font-bold mb-2">GÓI 30 SẢN PHẨM</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">1100K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thiết kế banner shop</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thiết kế ảnh bìa cho 30 sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Chỉnh sửa không giới hạn</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Bàn giao file gốc</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Hỗ trợ đăng lên shop</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="secondary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                    <div class="w-full md:w-1/2 lg:w-1/3 px-4 mb-8" data-aos="fade-up" data-aos-delay="300">
+                        <div class="price-card card">
+                            <h3 class="text-xl font-bold mb-2">GÓI 100 SẢN PHẨM</h3>
+                            <div class="text-3xl font-extrabold text-blue-800 mb-6">3190K</div>
+                            <ul class="mb-8">
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thiết kế banner shop</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Thiết kế ảnh bìa cho 100 sản phẩm</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Chỉnh sửa không giới hạn</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Bàn giao file gốc</span>
+                                </li>
+                                <li class="flex items-start mb-4">
+                                    <i class="fas fa-check-circle text-green-500 mt-1 mr-2"></i>
+                                    <span>Hỗ trợ đăng lên shop</span>
+                                </li>
+                            </ul>
+                            <a href="#contact" class="primary-btn w-full text-center">Đăng ký ngay</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl text-center section-title" data-aos="fade-up">Quy Trình Làm Việc</h2>
+            <div class="max-w-3xl mx-auto text-center mb-16" data-aos="fade-up" data-aos-delay="100">
+                <p class="text-lg text-gray-600">VUECOM luôn đảm bảo quy trình làm việc chuyên nghiệp, minh bạch và hiệu quả.</p>
+            </div>
+            
+            <div class="timeline">
+                <div class="timeline-container left" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-3">01. Tiếp nhận yêu cầu</h3>
+                        <p class="text-gray-600">Chúng tôi lắng nghe và ghi nhận đầy đủ nhu cầu từ khách hàng để có phương án phù hợp nhất.</p>
+                    </div>
+                </div>
+                <div class="timeline-container right" data-aos="fade-left">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-3">02. Phân tích & Tư vấn</h3>
+                        <p class="text-gray-600">Đội ngũ chuyên gia của VUECOM sẽ phân tích shop của bạn và đưa ra giải pháp tối ưu nhất.</p>
+                    </div>
+                </div>
+                <div class="timeline-container left" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-3">03. Báo giá & Ký hợp đồng</h3>
+                        <p class="text-gray-600">Chúng tôi gửi báo giá chi tiết và ký kết hợp đồng cung cấp dịch vụ đảm bảo quyền lợi của khách hàng.</p>
+                    </div>
+                </div>
+                <div class="timeline-container right" data-aos="fade-left">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-3">04. Triển khai dịch vụ</h3>
+                        <p class="text-gray-600">VUECOM bắt đầu tiến hành thực hiện dịch vụ theo đúng yêu cầu và cam kết với khách hàng.</p>
+                    </div>
+                </div>
+                <div class="timeline-container left" data-aos="fade-right">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-3">05. Báo cáo & Bàn giao</h3>
+                        <p class="text-gray-600">Chúng tôi thường xuyên cập nhật tiến độ và gửi báo cáo kết quả chi tiết sau khi hoàn thành.</p>
+                    </div>
+                </div>
+                <div class="timeline-container right" data-aos="fade-left">
+                    <div class="timeline-content">
+                        <h3 class="text-xl font-bold mb-3">06. Hỗ trợ sau dịch vụ</h3>
+                        <p class="text-gray-600">VUECOM cam kết hỗ trợ khách hàng trong thời gian bảo hành và tư vấn các vấn đề phát sinh.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section id="testimonials" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl text-center section-title" data-aos="fade-up">Khách Hàng Nói Gì Về Chúng Tôi</h2>
+            <div class="max-w-3xl mx-auto text-center mb-16" data-aos="fade-up" data-aos-delay="100">
+                <p class="text-lg text-gray-600">Hàng nghìn chủ Shop Shopee đã tin tưởng và sử dụng dịch vụ của VUECOM.</p>
+            </div>
+            
+            <div class="slider-container" data-aos="fade-up">
+                <div class="slider">
+                    <div class="slide">
+                        <div class="testimonial-card">
+                            <img src="https://cdn.jsdelivr.net/gh/mrmongkeyy/databanker@main/images/avatar-1.jpg" alt="Nguyễn Minh Đức" class="testimonial-img">
+                            <div class="pl-4 pt-10">
+                                <div class="flex mb-4 text-yellow-500">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="text-gray-600 italic mb-4">"Sau khi sử dụng dịch vụ buff đơn của VUECOM, doanh số shop tôi tăng lên đáng kể. Đội ngũ hỗ trợ rất nhiệt tình và chuyên nghiệp. Đặc biệt là tỷ lệ chuyển đổi khách hàng tăng lên rõ rệt. Cảm ơn VUECOM!"</p>
+                                <div class="font-semibold">Nguyễn Minh Đức</div>
+                                <div class="text-sm text-gray-500">Shop thời trang</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <div class="testimonial-card">
+                            <img src="https://cdn.jsdelivr.net/gh/mrmongkeyy/databanker@main/images/avatar-2.jpg" alt="Trần Thị Ngọc Ánh" class="testimonial-img">
+                            <div class="pl-4 pt-10">
+                                <div class="flex mb-4 text-yellow-500">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="text-gray-600 italic mb-4">"Shop tôi bị dính lỗi F02 và suýt bị khóa vĩnh viễn. May mắn là tôi đã tìm đến VUECOM và họ đã giúp tôi khôi phục shop chỉ trong vòng 10 ngày. Dịch vụ quá tuyệt vời, xứng đáng để tin tưởng!"</p>
+                                <div class="font-semibold">Trần Thị Ngọc Ánh</div>
+                                <div class="text-sm text-gray-500">Shop mỹ phẩm</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="slide">
+                        <div class="testimonial-card">
+                            <img src="https://cdn.jsdelivr.net/gh/mrmongkeyy/databanker@main/images/avatar-3.jpg" alt="Lê Thanh Tùng" class="testimonial-img">
+                            <div class="pl-4 pt-10">
+                                <div class="flex mb-4 text-yellow-500">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <p class="text-gray-600 italic mb-4">"Tôi đã dùng dịch vụ xây dựng shop của VUECOM và thực sự ấn tượng với kết quả. Từ con số 0, sau 2 tháng shop tôi đã có doanh thu ổn định và gần 1000 đơn hàng. Đặc biệt là thiết kế banner và ảnh sản phẩm rất chuyên nghiệp!"</p>
+                                <div class="font-semibold">Lê Thanh Tùng</div>
+                                <div class="text-sm text-gray-500">Shop điện tử</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="slider-dots">
+                    <div class="slider-dot active" data-slide="0"></div>
+                    <div class="slider-dot" data-slide="1"></div>
+                    <div class="slider-dot" data-slide="2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="py-20">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl text-center section-title" data-aos="fade-up">Câu Hỏi Thường Gặp</h2>
+            <div class="max-w-3xl mx-auto text-center mb-16" data-aos="fade-up" data-aos-delay="100">
+                <p class="text-lg text-gray-600">Những thắc mắc phổ biến về dịch vụ của VUECOM.</p>
+            </div>
+            
+            <div class="max-w-3xl mx-auto" data-aos="fade-up">
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Buff đơn có ảnh hưởng đến shop của tôi không?</span>
+                        <i class="fas fa-chevron-down text-blue-800"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="text-gray-600">Dịch vụ buff đơn của VUECOM được thực hiện với quy trình an toàn và bảo mật cao. Chúng tôi đảm bảo các đơn hàng được tạo theo đúng quy chuẩn của Shopee, không gây ảnh hưởng tiêu cực đến shop. Ngược lại, việc tăng đơn hàng và đánh giá 5 sao sẽ giúp nâng cao thứ hạng và uy tín của shop.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>VUECOM có thể giúp khôi phục shop bị khóa không?</span>
+                        <i class="fas fa-chevron-down text-blue-800"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="text-gray-600">Có, VUECOM có đội ngũ chuyên gia giàu kinh nghiệm trong việc xử lý các vấn đề liên quan đến shop bị khóa. Chúng tôi có thể hỗ trợ khôi phục shop trong nhiều trường hợp như F02, giao dịch ngoài, hàng giả hàng nhái. Tỷ lệ thành công của chúng tôi rất cao, tuy nhiên thời gian xử lý sẽ phụ thuộc vào mức độ vi phạm của shop.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Làm thế nào để shop tôi lên được Shopee Mall?</span>
+                        <i class="fas fa-chevron-down text-blue-800"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="text-gray-600">Để trở thành Shopee Mall, shop cần đáp ứng một số tiêu chí như: có giấy đăng ký kinh doanh, giấy đăng ký thương hiệu, duy trì tỷ lệ đánh giá tốt, đạt doanh số nhất định... VUECOM có thể hỗ trợ bạn đạt được các tiêu chí này thông qua dịch vụ lên Shopee Mall chuyên nghiệp, bao gồm hỗ trợ giấy tờ, tăng đánh giá và tư vấn quy trình.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Chi phí dịch vụ đã bao gồm phí ship và COD chưa?</span>
+                        <i class="fas fa-chevron-down text-blue-800"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="text-gray-600">Chi phí dịch vụ của VUECOM chưa bao gồm phí ship và COD. Các chi phí này sẽ được tính riêng và thông báo cụ thể cho khách hàng trước khi thực hiện dịch vụ. Điều này giúp khách hàng có thể linh hoạt lựa chọn phương thức vận chuyển và thanh toán phù hợp với nhu cầu và ngân sách.</p>
+                    </div>
+                </div>
+                <div class="accordion-item">
+                    <div class="accordion-header">
+                        <span>Thời gian bảo hành dịch vụ là bao lâu?</span>
+                        <i class="fas fa-chevron-down text-blue-800"></i>
+                    </div>
+                    <div class="accordion-content">
+                        <p class="text-gray-600">VUECOM cung cấp thời gian bảo hành 30 ngày kể từ ngày bàn giao dịch vụ. Trong thời gian này, nếu có bất kỳ vấn đề nào phát sinh liên quan đến dịch vụ, chúng tôi sẽ hỗ trợ xử lý miễn phí. Đối với một số trường hợp đặc biệt, chúng tôi có thể đền bù một shop mới hoặc mở lại shop cũ nếu gặp rủi ro trong thời gian bảo hành.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl text-center section-title" data-aos="fade-up">Liên Hệ Với Chúng Tôi</h2>
+            <div class="max-w-3xl mx-auto text-center mb-16" data-aos="fade-up" data-aos-delay="100">
+                <p class="text-lg text-gray-600">Hãy để lại thông tin, chúng tôi sẽ liên hệ với bạn trong thời gian sớm nhất!</p>
+            </div>
+            
+            <div class="flex flex-wrap -mx-4">
+                <div class="w-full lg:w-1/2 px-4 mb-12 lg:mb-0" data-aos="fade-right">
+                    <form id="contact-form" class="bg-white p-8 rounded-lg shadow-md">
+                        <div class="mb-6">
+                            <label for="name" class="block text-gray-700 font-medium mb-2">Họ và tên</label>
+                            <input type="text" id="name" class="form-control" placeholder="Nhập họ và tên" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="email" class="block text-gray-700 font-medium mb-2">Email</label>
+                            <input type="email" id="email" class="form-control" placeholder="Nhập email" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="phone" class="block text-gray-700 font-medium mb-2">Số điện thoại</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="Nhập số điện thoại" required>
+                        </div>
+                        <div class="mb-6">
+                            <label for="service" class="block text-gray-700 font-medium mb-2">Dịch vụ quan tâm</label>
+                            <select id="service" class="form-control">
+                                <option value="">Chọn dịch vụ</option>
+                                <option value="buff">Buff Đơn & Đánh Giá</option>
+                                <option value="mall">Lên Shopee Mall</option>
+                                <option value="build">Xây Dựng Shop</option>
+                                <option value="error">Xử Lý Lỗi</option>
+                                <option value="live">Treo Live</option>
+                                <option value="deco">Trang Trí Shop</option>
+                                <option value="other">Dịch vụ khác</option>
+                            </select>
+                        </div>
+                        <div class="mb-6">
+                            <label for="message" class="block text-gray-700 font-medium mb-2">Tin nhắn</label>
+                            <textarea id="message" class="form-control h-32" placeholder="Nhập nội dung" required></textarea>
+                        </div>
+                        <button type="submit" class="primary-btn w-full">Gửi yêu cầu</button>
+                    </form>
+                </div>
+                <div class="w-full lg:w-1/2 px-4" data-aos="fade-left">
+                    <div class="bg-white p-8 rounded-lg shadow-md h-full">
+                        <h3 class="text-2xl font-bold mb-6">Thông Tin Liên Hệ</h3>
+                        <div class="mb-6">
+                            <div class="flex items-start mb-4">
+                                <div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full mr-4">
+                                    <i class="fas fa-map-marker-alt text-blue-800 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold mb-1">Địa chỉ:</h4>
+                                    <p class="text-gray-600">Tòa Mipec, Kiến Hưng, Hà Đông, Hà Nội</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start mb-4">
+                                <div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full mr-4">
+                                    <i class="fas fa-phone-alt text-blue-800 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold mb-1">Zalo:</h4>
+                                    <p class="text-gray-600">0386473757</p>
+                                </div>
+                            </div>
+                            <div class="flex items-start mb-4">
+                                <div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full mr-4">
+                                    <i class="fas fa-envelope text-blue-800 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold mb-1">Email:</h4>
+                                    <p class="text-gray-600"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="c8bebdbca0a9a6a0b9bda9a6af88afa5a9a1a4e6aba7a5">[email&#160;protected]</a></p>
+                                </div>
+                            </div>
+                            <div class="flex items-start">
+                                <div class="w-12 h-12 flex items-center justify-center bg-blue-100 rounded-full mr-4">
+                                    <i class="fas fa-clock text-blue-800 text-xl"></i>
+                                </div>
+                                <div>
+                                    <h4 class="text-lg font-semibold mb-1">Giờ làm việc:</h4>
+                                    <p class="text-gray-600">Thứ 2 - Chủ nhật: 8:00 - 22:00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <h4 class="text-lg font-semibold mb-4">Theo dõi chúng tôi:</h4>
+                        <div class="flex space-x-4">
+                            <a href="#" class="w-10 h-10 flex items-center justify-center bg-blue-800 text-white rounded-full hover:bg-blue-900 transition-colors">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 flex items-center justify-center bg-pink-600 text-white rounded-full hover:bg-pink-700 transition-colors">
+                                <i class="fab fa-instagram"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 flex items-center justify-center bg-red-600 text-white rounded-full hover:bg-red-700 transition-colors">
+                                <i class="fab fa-youtube"></i>
+                            </a>
+                            <a href="#" class="w-10 h-10 flex items-center justify-center bg-blue-400 text-white rounded-full hover:bg-blue-500 transition-colors">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer Section -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="flex flex-wrap -mx-4">
+                <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
+                    <h3 class="text-2xl font-bold mb-6">VUE<span class="text-orange-500">COM</span></h3>
+                    <p class="mb-4">Giải pháp toàn diện cho Shop Shopee của bạn. Với kinh nghiệm nhiều năm trong lĩnh vực thương mại điện tử, chúng tôi cam kết mang đến những dịch vụ chất lượng nhất.</p>
+                    <div class="flex space-x-4 mt-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
+                    <h4 class="text-lg font-semibold mb-6">Dịch Vụ Chính</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">Buff Đơn & Đánh Giá</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">Xây Dựng Shop</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">Lên Shopee Mall</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">Xử Lý Lỗi Shopee</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">Treo Live Shopee</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">Trang Trí Shop</a></li>
+                    </ul>
+                </div>
+                <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
+                    <h4 class="text-lg font-semibold mb-6">Liên Kết Nhanh</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#about" class="text-gray-400 hover:text-white transition-colors">Giới Thiệu</a></li>
+                        <li><a href="#services" class="text-gray-400 hover:text-white transition-colors">Dịch Vụ</a></li>
+                        <li><a href="#pricing" class="text-gray-400 hover:text-white transition-colors">Bảng Giá</a></li>
+                        <li><a href="#testimonials" class="text-gray-400 hover:text-white transition-colors">Đánh Giá</a></li>
+                        <li><a href="#contact" class="text-gray-400 hover:text-white transition-colors">Liên Hệ</a></li>
+                        <li><a href="#" class="text-gray-400 hover:text-white transition-colors">Chính Sách Bảo Mật</a></li>
+                    </ul>
+                </div>
+                <div class="w-full md:w-1/2 lg:w-1/4 px-4 mb-8">
+                    <h4 class="text-lg font-semibold mb-6">Liên Hệ</h4>
+                    <ul class="space-y-3">
+                        <li class="flex items-start">
+                            <i class="fas fa-map-marker-alt mt-1 mr-3 text-orange-500"></i>
+                            <span class="text-gray-400">Tòa Mipec, Kiến Hưng, Hà Đông, Hà Nội</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-phone-alt mt-1 mr-3 text-orange-500"></i>
+                            <span class="text-gray-400">Zalo: 0386473757</span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-envelope mt-1 mr-3 text-orange-500"></i>
+                            <span class="text-gray-400"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="cfb9babba7aea1a7bebaaea1a88fa8a2aea6a3e1aca0a2">[email&#160;protected]</a></span>
+                        </li>
+                        <li class="flex items-start">
+                            <i class="fas fa-clock mt-1 mr-3 text-orange-500"></i>
+                            <span class="text-gray-400">Thứ 2 - Chủ nhật: 8:00 - 22:00</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+                <p class="text-gray-400">© 2023 VUECOM. Tất cả quyền được bảo lưu.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script>
+        // Initialize AOS
+        AOS.init({
+            duration: 800,
+            once: true
+        });
+        
+        // Testimonial Slider
+        document.addEventListener('DOMContentLoaded', function() {
+            const slider = document.querySelector('.slider');
+            const dots = document.querySelectorAll('.slider-dot');
+            
+            dots.forEach((dot, index) => {
+                dot.addEventListener('click', () => {
+                    slider.style.transform = `translateX(-${index * 33.333}%)`;
+                    
+                    dots.forEach(d => d.classList.remove('active'));
+                    dot.classList.add('active');
+                });
+            });
+            
+            // Auto slider
+            let currentSlide = 0;
+            
+            setInterval(() => {
+                currentSlide = (currentSlide + 1) % 3;
+                slider.style.transform = `translateX(-${currentSlide * 33.333}%)`;
+                
+                dots.forEach(d => d.classList.remove('active'));
+                dots[currentSlide].classList.add('active');
+            }, 5000);
+            
+            // Tabs for pricing
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            const tabContents = document.querySelectorAll('.tab-content');
+            
+            tabBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // Remove active class from all buttons and contents
+                    tabBtns.forEach(b => {
+                        b.classList.remove('primary-btn');
+                        b.classList.add('secondary-btn');
+                    });
+                    tabContents.forEach(c => c.classList.add('hidden'));
+                    
+                    // Add active class to clicked button and its content
+                    btn.classList.remove('secondary-btn');
+                    btn.classList.add('primary-btn');
+                    document.getElementById(`${btn.dataset.tab}-tab`).classList.remove('hidden');
+                });
+            });
+            
+            // Accordion
+            const accordionHeaders = document.querySelectorAll('.accordion-header');
+            
+            accordionHeaders.forEach(header => {
+                header.addEventListener('click', () => {
+                    const content = header.nextElementSibling;
+                    content.classList.toggle('active');
+                    
+                    const icon = header.querySelector('i');
+                    icon.classList.toggle('fa-chevron-down');
+                    icon.classList.toggle('fa-chevron-up');
+                });
+            });
+            
+            // Form validation
+            const form = document.getElementById('contact-form');
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+                const phone = document.getElementById('phone').value;
+                const service = document.getElementById('service').value;
+                const message = document.getElementById('message').value;
+                
+                // Simple validation
+                if (!name || !email || !phone || !message) {
+                    alert('Vui lòng điền đầy đủ thông tin!');
+                    return;
+                }
+                
+                // Email validation
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    alert('Email không hợp lệ!');
+                    return;
+                }
+                
+                // Phone validation
+                const phoneRegex = /^[0-9]{10}$/;
+                if (!phoneRegex.test(phone)) {
+                    alert('Số điện thoại không hợp lệ!');
+                    return;
+                }
+                
+                // If all validations pass
+                alert('Cảm ơn bạn đã liên hệ với chúng tôi! Chúng tôi sẽ phản hồi trong thời gian sớm nhất.');
+                form.reset();
+            });
+            
+            // Counter animation
+            const counters = document.querySelectorAll('.counter');
+            
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-count'));
+                const duration = 2000; // 2 seconds
+                const step = target / (duration / 16); // 16ms per frame
+                
+                let count = 0;
+                const updateCounter = () => {
+                    count += step;
+                    if (count < target) {
+                        counter.textContent = Math.floor(count);
+                        requestAnimationFrame(updateCounter);
+                    } else {
+                        counter.textContent = target;
+                    }
+                };
+                
+                const observer = new IntersectionObserver(entries => {
+                    if (entries[0].isIntersecting) {
+                        updateCounter();
+                        observer.disconnect();
+                    }
+                });
+                
+                observer.observe(counter);
+            });
+        });
+    </script>
+</body>
+</html>
